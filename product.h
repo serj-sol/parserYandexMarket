@@ -14,10 +14,10 @@ public:
     Product();
     Product(QString n, QString p, QString l,QString i);
     void set_prod(QString n, QString p, QString l,QString i);
-    QString get_name();
-    QString get_price();
-    QString get_link();
-    QString get_img();
+    QString get_name() const;
+    QString get_price() const ;
+    QString get_link() const ;
+    QString get_img() const ;
 };
 
 #endif // PRODUCT_H
