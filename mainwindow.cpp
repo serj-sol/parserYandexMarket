@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tableView->setModel(model);
     tableView->resizeRowsToContents();
     tableView->resizeColumnsToContents();
+
 }
 
 MainWindow::~MainWindow()
