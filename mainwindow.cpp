@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    modelTableView
     QTableView *tableView;
     QStandardItemModel *model;
 
@@ -97,6 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tableView->setModel(model);
     tableView->resizeRowsToContents();
     tableView->resizeColumnsToContents();
+
 }
 
 MainWindow::~MainWindow()
