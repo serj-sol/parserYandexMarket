@@ -2,10 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QApplication>
 
-#include <QTableView>
 
-#include "QStandardItemModel"
-#include "QStandardItem"
 
 #include <QDebug>
 
@@ -14,11 +11,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QTableView *tableView = new QTableView(this);
+    QTableView *tableView;
+    QStandardItemModel *model;
+
+    tableView = new QTableView(this);
 
     setCentralWidget(tableView);
 
-    QStandardItemModel *model = new QStandardItemModel;
+    model = new QStandardItemModel;
     QStandardItem *item;
 
     //Заголовки столбцов
@@ -78,18 +78,25 @@ MainWindow::MainWindow(QWidget *parent) :
 
      for (int row = 0; row < rowsList.size(); row++){
          for (int col = 0; col < rowsList.at(row).size(); col++){
-
+             if (col == rowsList.at(row).size()-1)
+             {
+                 QImage image(rowsList.at(row).at(col));
+                 item = new QStandardItem();
+                 item->setData(QVariant(QPixmap::fromImage(image)), Qt::DecorationRole);
+             }
+             else
+             {
              item = new QStandardItem(rowsList.at(row).at(col));
+             }
              model->setItem(row, col, item);
-
          }
     }
 
-     qDebug() << rowsList.at(0).at(0);
 
-     tableView->setModel(model);
 
-     tableView->resizeColumnsToContents();
+    tableView->setModel(model);
+    tableView->resizeRowsToContents();
+    tableView->resizeColumnsToContents();
 }
 
 MainWindow::~MainWindow()

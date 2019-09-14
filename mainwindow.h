@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QTableWidget>
+//#include <QTableWidget>
+#include <QTableView>
+#include <QStandardItemModel>
+#include <QStandardItem>
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +21,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+
 
 };
 
