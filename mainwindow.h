@@ -6,6 +6,8 @@
 #include <QTextEdit>
 #include <QSpinBox>
 #include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 namespace Ui {
 class MainWindow;
@@ -18,19 +20,18 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void createProductInfo();
-    QVector<QString> getProductData(QString);
-
-
+    void                createProductInfo();           // Создание вектора с данными о продуктах.
+    QVector<QString>    getProductData(QString);       // Извлечение данных о товаре из исходного кода страницы (из всего кода, принадлежащего товару).
+    void                createSearchWidget();
 private:
-    Ui::MainWindow *ui;
-    QPushButton* searchButton;
-    QLineEdit* lineEdit;
-    QString html;
-    QTextEdit* textEdit;
-    QSpinBox* numberOfProducts;
-    int index = 0;
-    QVector<QVector<QString> > data;
+    Ui::MainWindow*             ui;
+    QPushButton*                searchButton;
+    QLineEdit*                  lineEdit;
+    QString                     html;
+    QTextEdit*                  textEdit;
+    QSpinBox*                   numberOfProducts;
+    int                         index = 0;
+    QVector<QVector<QString> >  data;
 private slots:
     void search();
 };

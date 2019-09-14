@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QHBoxLayout>
 #include <QNetworkAccessManager>
-#include <QVBoxLayout>
 #include <QEventLoop>
 #include <QNetworkReply>
 #include <QDebug>
@@ -13,26 +11,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QHBoxLayout* layout = new QHBoxLayout(this);
-    QVBoxLayout* vLayout = new QVBoxLayout(this);
-    lineEdit = new QLineEdit(this);
-    textEdit = new QTextEdit(this);
-    textEdit->hide();
-    numberOfProducts = new QSpinBox(this);
-    numberOfProducts->setValue(5);
-    searchButton = new QPushButton("Search", this);
+    createSearchWidget();
 
-    layout->addWidget(lineEdit);
-    layout->addWidget(searchButton);
-    layout->addWidget(numberOfProducts);
-
-    vLayout->addLayout(layout);
-    vLayout->addWidget(textEdit);
-    this->centralWidget()->setLayout(vLayout);
-    this->setMaximumHeight(0);
     connect(searchButton, SIGNAL(clicked(bool)), this, SLOT(search()));
     connect(lineEdit, SIGNAL(returnPressed()), searchButton, SLOT(click()));
-
 }
 
 MainWindow::~MainWindow()
@@ -45,9 +27,11 @@ void MainWindow::search()
     lineEdit->setEnabled(false);
     numberOfProducts->setEnabled(false);
     searchButton->setEnabled(false);
+
     if(!data.isEmpty())
         data.clear();
     textEdit->clear();
+
     QString searchText = lineEdit->text();
     QString searchPattern = "https://market.yandex.ru/search?&text=";
     QString url;
@@ -67,11 +51,9 @@ void MainWindow::search()
         exit(1);
     }
 
-    //textEdit->setText(html.toHtmlEscaped());
-    //textEdit->show();
-
     for(int i = 0; i < numberOfProducts->value(); ++i)
         createProductInfo();
+
     QMessageBox::information(this, "", "Results is done");
 
     lineEdit->setEnabled(true);
@@ -80,10 +62,10 @@ void MainWindow::search()
 }
 QVector<QString> MainWindow::getProductData(QString data)
 {
-    QVector<QString> res; // Последовательность данных в векторе: ссылка на картинку, названиеи, цена, ссылка на товар.
-    QString pattern;    // Шаблон для поиска индекса
+    QVector<QString> res;   // Последовательность данных в векторе: ссылка на картинку, названиеи, цена, ссылка на товар.
+    QString pattern;        // Шаблон для поиска индекса
 
-    // Поиск картинки
+    // Поиск картинки.
     pattern = "<img class=\"image\" src=\"";
     int idxPicture = data.indexOf(pattern, 0);
     idxPicture += 26;
@@ -96,7 +78,7 @@ QVector<QString> MainWindow::getProductData(QString data)
     qDebug() << pictureLinkProduct;
     res.push_back(pictureLinkProduct);
 
-    // Поиск названя товара. Полное название следует сразу после ссылки на картинку
+    // Поиск названя товара. Полное название следует сразу после ссылки на картинку.
     QString titleProduct;
     pattern = "title=\"";
     int idxTitle = data.indexOf(pattern, idxPicture);
@@ -110,7 +92,7 @@ QVector<QString> MainWindow::getProductData(QString data)
     qDebug() << titleProduct;
     res.push_back(titleProduct);
 
-    // Поиск цены товара
+    // Поиск цены товара.
     QString priceProduct;
     pattern = "<div class=\"price\">";
     int idxPrice = data.indexOf(pattern , 0);
@@ -123,7 +105,7 @@ QVector<QString> MainWindow::getProductData(QString data)
     qDebug() << priceProduct;
     res.push_back(priceProduct);
 
-    // Поиск ссылки на торвар
+    // Поиск ссылки на торвар.
     QString linkProduct = "https://market.yandex.ru";
     pattern = "href=\"";
     int idxHref = data.indexOf(pattern, 0);
@@ -163,4 +145,25 @@ void MainWindow::createProductInfo()
         exit(1);
     }
 
+}
+
+void MainWindow::createSearchWidget()
+{
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    QVBoxLayout* vLayout = new QVBoxLayout(this);
+    lineEdit = new QLineEdit(this);
+    textEdit = new QTextEdit(this);
+    textEdit->hide();
+    numberOfProducts = new QSpinBox(this);
+    numberOfProducts->setValue(5);
+    searchButton = new QPushButton("Search", this);
+
+    layout->addWidget(lineEdit);
+    layout->addWidget(searchButton);
+    layout->addWidget(numberOfProducts);
+
+    vLayout->addLayout(layout);
+    vLayout->addWidget(textEdit);
+    this->centralWidget()->setLayout(vLayout);
+    this->setMaximumHeight(0);
 }
