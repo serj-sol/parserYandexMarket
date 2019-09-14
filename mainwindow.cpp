@@ -11,9 +11,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QTableView *tableView;
-    QStandardItemModel *model;
-
+    Product prd;
+    prd.set_prod("name1", "link1", "price1", "img1");
+    qDebug() << prd.get_name();
     tableView = new QTableView(this);
 
     setCentralWidget(tableView);
@@ -27,73 +27,28 @@ MainWindow::MainWindow(QWidget *parent) :
         horizontalHeader.append("Цена");
         horizontalHeader.append("Ссылка");
         horizontalHeader.append("Картинка");
-
-    //Заголовки строк
-    QStringList verticalHeader;
-        verticalHeader.append("1");
-        verticalHeader.append("2");
-
     model->setHorizontalHeaderLabels(horizontalHeader);
-    model->setVerticalHeaderLabels(verticalHeader);
 
 
-     QList <QStringList> rowsList;
-     QStringList row1;
-     QStringList row2;
-     QStringList row3;
-     QStringList row4;
-     QStringList row5;
 
-        row1.push_back("Клавиатура Logitech Corded Keyboard K280e Black USB");
-        row1.push_back(QString::number(850));
-        row1.push_back("https://market.yandex.ru/product--klaviatura-logitech-corded-keyboard-k280e-black-usb/10626665");
-        row1.push_back(":/imgs/imgs/1.webp");
+    Product prd1, prd2, prd3, prd4, prd5;
+    prd1.set_prod("Клавиатура Logitech Corded Keyboard K280e Black USB", "https://market.yandex.ru/product--klaviatura-logitech-corded-keyboard-k280e-black-usb/10626665", "850", ":/imgs/imgs/1.webp");
+    prd2.set_prod("Клавиатура A4Tech KV-300H dark Grey USB", "link1", "price1", ":/imgs/imgs/2.webp");
+    prd3.set_prod("Клавиатура Logitech G G213 Prodigy RGB Gaming Keyboard Black USB", "link1", "price1", ":/imgs/imgs/3.webp");
+    prd4.set_prod("Клавиатура Logitech K380 Multi-Device Black Bluetooth", "link1", "price1", ":/imgs/imgs/4.webp");
+    prd5.set_prod("Клавиатура Logitech G G413 Black USB", "link1", "price1", ":/imgs/imgs/5.webp");
 
-        row2.push_back("Клавиатура A4Tech KV-300H dark Grey USB");
-        row2.push_back(QString::number(1479));
-        row2.push_back("https://market.yandex.ru/product--klaviatura-a4tech-kv-300h-dark-grey-usb/6468614");
-        row2.push_back(":/imgs/imgs/2.webp");
+    QList <Product> prodList;
+    prodList << prd1 << prd2 << prd3 << prd4 << prd5;
+    //qDebug() << prodList.at[1].get_name();
+    for (int i = 0; i < 4; i++){
+        qDebug() << "<link title=\"" + prd1.get_name() + "\" href=\"" + prd1.get_name() + "\" >";
 
-        row3.push_back("Клавиатура Logitech G G213 Prodigy RGB Gaming Keyboard Black USB");
-        row3.push_back(QString::number(3743));
-        row3.push_back("https://market.yandex.ru/product--klaviatura-logitech-g-g213-prodigy-rgb-gaming-keyboard-black-usb/1715519053");
-        row3.push_back(":/imgs/imgs/3.webp");
+        QImage image(prd1.get_img());
+        item = new QStandardItem();
+        item->setData(QVariant(QPixmap::fromImage(image)), Qt::DecorationRole);
 
-        row4.push_back("Клавиатура Logitech K380 Multi-Device Black Bluetooth");
-        row4.push_back(QString::number(2198));
-        row4.push_back("https://market.yandex.ru/product--klaviatura-logitech-k380-multi-device-black-bluetooth/13369773");
-        row4.push_back(":/imgs/imgs/4.webp");
-
-        row5.push_back("Клавиатура Logitech G G413 Black USB");
-        row5.push_back(QString::number(5453));
-        row5.push_back("https://market.yandex.ru/product--klaviatura-logitech-g-g413-black-usb/1729608899");
-        row5.push_back(":/imgs/imgs/5.webp");
-
-
-     rowsList.append(row1);
-     rowsList.append(row2);
-     rowsList.append(row3);
-     rowsList.append(row4);
-     rowsList.append(row5);
-
-     for (int row = 0; row < rowsList.size(); row++){
-         for (int col = 0; col < rowsList.at(row).size(); col++){
-             if (col == rowsList.at(row).size()-1)
-             {
-                 QImage image(rowsList.at(row).at(col));
-                 item = new QStandardItem();
-                 item->setData(QVariant(QPixmap::fromImage(image)), Qt::DecorationRole);
-             }
-             else
-             {
-             item = new QStandardItem(rowsList.at(row).at(col));
-             }
-             model->setItem(row, col, item);
-         }
     }
-
-
-
     tableView->setModel(model);
     tableView->resizeRowsToContents();
     tableView->resizeColumnsToContents();
