@@ -11,9 +11,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     Product prd;
     prd.set_prod("name1", "link1", "price1", "img1");
     qDebug() << prd.get_name();
+
     tableView = new QTableView(this);
 
     setCentralWidget(tableView);
@@ -52,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     tableView->setModel(model);
     tableView->resizeRowsToContents();
     tableView->resizeColumnsToContents();
+
 }
 
 MainWindow::~MainWindow()
