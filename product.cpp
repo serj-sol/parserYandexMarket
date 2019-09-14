@@ -12,21 +12,21 @@ Product::Product(QString n, QString p, QString l, QString i)
 }
 void Product::set_prod(QString n, QString p, QString l, QString i){
     name = n;
-    link = l;
     price = p;
+    link = l;
     img = i;
 }
 
 
-QString Product::get_name() {
+QString Product::get_name() const {
     return name;
 }
-QString Product::get_price(){
+QString Product::get_price() const {
     return price;
 }
-QString Product::get_link(){
+QString Product::get_link() const {
     return link;
 }
-QString Product::get_img(){
+QString Product::get_img() const {
     return img;
 }
