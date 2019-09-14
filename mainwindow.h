@@ -24,6 +24,8 @@ private:
     Ui::MainWindow *ui;
     QTableView *tableView;
     QStandardItemModel *model;
+protected:
+    void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
 
 };
