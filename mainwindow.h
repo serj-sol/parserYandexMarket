@@ -1,7 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "product.h"
 #include <QMainWindow>
+
 //#include <QTableWidget>
 #include <QTableView>
 #include <QStandardItemModel>
@@ -21,7 +22,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
+    QTableView *tableView;
+    QStandardItemModel *model;
 
 
 };
