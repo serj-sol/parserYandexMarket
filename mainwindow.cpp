@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QApplication>
 #include <QLabel>
+#include <QLayout>
+#include <QPushButton>
 #include <QLineEdit>
 
 #include <QDebug>
@@ -11,14 +13,26 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QGridLayout *layout = new QGridLayout(this);
+    QPushButton *buttonFind = new QPushButton("Find");
+    QPushButton *buttonExport = new QPushButton("Export");
+    QLineEdit *line = new QLineEdit;
 
     tableView = new QTableView(this);
-    setCentralWidget(tableView);
     model = new QStandardItemModel;
+
+    layout->addWidget(line, 0, 0);
+    layout->addWidget(buttonFind, 0, 1);
+    layout->addWidget(buttonExport, 0, 2);
+    layout->addWidget(tableView, 1, 0);
+    setLayout(layout);
+
+    this->centralWidget()->setLayout(layout);
 
     QStandardItem *iName;
     QStandardItem *iPrice;
     QStandardItem *iPic;
+    tableView->setModel(model);
 
     //Заголовки столбцов
     QStringList horizontalHeader;
@@ -36,16 +50,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QList <Product> prodList;
     prodList << prd1 << prd2 << prd3 << prd4 << prd5;
-    qDebug() << prodList.at(1).get_name();
-    for (int r = 0; r < 4; r++){
-        qDebug() << "<a href=\"" + prodList.at(r).get_link() + "\">" + prodList.at(r).get_name() + "</a>";
 
-
-        QLabel *prodLink = new QLabel;
-        prodLink->setText("<a href=\"" + prodList.at(r).get_link() + "\">" + prodList.at(r).get_name() + "</a>");
-        prodLink->setTextFormat(Qt::RichText);
-        prodLink->setTextInteractionFlags(Qt::TextBrowserInteraction);
-        prodLink->setOpenExternalLinks(true);
+    for (int r = 0; r < 5; r++){
+        QLabel *linkedName = new QLabel;
+        linkedName->setText("<a href=\"" + prodList.at(r).get_link() + "\">" + prodList.at(r).get_name() + "</a>");
+        linkedName->setTextFormat(Qt::RichText);
+        linkedName->setTextInteractionFlags(Qt::TextBrowserInteraction);
+        linkedName->setOpenExternalLinks(true);
 
         iName = new QStandardItem(prodList.at(r).get_name());
         iPrice = new QStandardItem(prodList.at(r).get_price());
@@ -54,13 +65,15 @@ MainWindow::MainWindow(QWidget *parent) :
         iPic = new QStandardItem();
         iPic->setData(QVariant(QPixmap::fromImage(image)), Qt::DecorationRole);
 
-        model->setItem(r, 0, iName);
+        //model->setItem(r, 0, iName);
+
+        tableView->setIndexWidget(tableView->model()->index(r, 0),linkedName);
         model->setItem(r, 1, iPrice);
         model->setItem(r, 2, iPic);
 
     }
 
-    tableView->setModel(model);
+
     tableView->resizeRowsToContents();
     tableView->resizeColumnsToContents();
 }
