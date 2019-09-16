@@ -10,6 +10,8 @@
 #include <QVBoxLayout>
 #include <QSignalMapper>
 #include "product.h"
+#include "parametresrequest.h"
+#include "parserym.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,22 +25,21 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void                getFullProductInfo();           // Создание вектора с данными о продуктах.
-    Product*            getProductData(QString);       // Извлечение данных о товаре из исходного кода страницы (из всего кода, принадлежащего товару).
     void                createSearchWidget();
     void                getHtml(const QString searchLine);
 private:
-    Ui::MainWindow*             ui;
-    QPushButton*                searchButton;
-    QLineEdit*                  lineEdit;
-    QString                     html;
-    QSpinBox*                   numberOfProducts;
-    int                         index = 0;
+    Ui::MainWindow*     ui;
+    QPushButton*        searchButton;
+    QLineEdit*          lineEdit;
+    QString             html;
+    QSpinBox*           numberOfProducts;
+    QVector<Product*>   products;
+    ParametresRequest*  parametresRequest;
+    ParserYM*           parser;
 
-    QVector<Product*>           products;
-
+    void                updateTable();
 private slots:
-    void starSearch(const QString searchLine);
-    //void getSearchLine(QString searchLine);
+    void starSearch();
 };
 
 #endif // MAINWINDOW_H
