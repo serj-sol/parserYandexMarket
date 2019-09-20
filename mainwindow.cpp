@@ -79,7 +79,9 @@ MainWindow::MainWindow(QWidget *parent) :
     tableView->resizeRowsToContents();
     tableView->resizeColumnsToContents();
 
+
     connect(buttonExport, SIGNAL(clicked()), this, SLOT(exportToExcel()));
+
 }
 
 MainWindow::~MainWindow()
