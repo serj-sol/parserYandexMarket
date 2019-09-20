@@ -8,16 +8,16 @@ class Product
 private:
     QString name;
     QString price;
-    QString link;
-    QString img;
+    QString url;
+    QString image;
 public:
     Product();
     Product(QString n, QString p, QString l,QString i);
-    void set_prod(QString n, QString p, QString l,QString i);
-    QString get_name() const;
-    QString get_price() const ;
-    QString get_link() const ;
-    QString get_img() const ;
+    void setProduct(QString n, QString p, QString l,QString i);
+    QString getName() const;
+    QString getPrice() const ;
+    QString getUrl() const ;
+    QString getImage() const ;
 };
 
 #endif // PRODUCT_H

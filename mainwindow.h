@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 #include "product.h"
 #include <QMainWindow>
+#include <QLayout>
+#include <QPushButton>
 
 //#include <QTableWidget>
 #include <QTableView>
@@ -24,6 +26,12 @@ private:
     Ui::MainWindow *ui;
     QTableView *tableView;
     QStandardItemModel *model;
+    QGridLayout *layout;
+    QPushButton *buttonFind;
+    QPushButton *buttonExport;
+    QLineEdit *line;
+private slots:
+    void exportToExcel();
 
 };
 
