@@ -24,9 +24,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void                getFullProductInfo();           // Создание вектора с данными о продуктах.
     void                createSearchWidget();
-    void                getHtml(const QString searchLine);
+    void                printProductsData();
 private:
     Ui::MainWindow*     ui;
     QPushButton*        searchButton;

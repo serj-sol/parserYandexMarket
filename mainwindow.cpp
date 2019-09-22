@@ -11,11 +11,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 {
     ui->setupUi(this);
     createSearchWidget();
-    parser = new ParserYM;
-    parametresRequest = new ParametresRequest;
+    parser              = new ParserYM;
+    parametresRequest   = new ParametresRequest;
 
-    connect(searchButton, SIGNAL(clicked(bool)), this, SLOT(starSearch()));
-    connect(lineEdit, SIGNAL(returnPressed()), searchButton, SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
+    connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
+    connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
 }
 
 MainWindow::~MainWindow()
@@ -30,11 +30,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::starSearch()
 {
-    lineEdit->setEnabled(false);
-    numberOfProducts->setEnabled(false);
-    searchButton->setEnabled(false);
-
-    parametresRequest->setParametresReq(lineEdit->text(), QString::number((numberOfProducts->value())));
+    lineEdit            ->setEnabled(false);
+    numberOfProducts    ->setEnabled(false);
+    searchButton        ->setEnabled(false);
+    parametresRequest   ->setParametresReq(lineEdit->text(), QString::number((numberOfProducts->value())));
 
     if(!products.isEmpty())
     {
@@ -49,21 +48,24 @@ void MainWindow::starSearch()
 
     QMessageBox::information(this, "", "Results is done");
     if(!products.isEmpty())
+    {
         qDebug() << "Success";
+        printProductsData();
+    }
 
-    lineEdit->setEnabled(true);
+    lineEdit        ->setEnabled(true);
     numberOfProducts->setEnabled(true);
-    searchButton->setEnabled(true);
+    searchButton    ->setEnabled(true);
 }
 
 void MainWindow::createSearchWidget()
 {
     QHBoxLayout* layout = new QHBoxLayout(this);
 
-    lineEdit = new QLineEdit(this);
-    numberOfProducts = new QSpinBox(this);
-    numberOfProducts->setValue(5);
-    searchButton = new QPushButton("Search", this);
+    lineEdit            = new QLineEdit(this);
+    numberOfProducts    = new QSpinBox(this);
+    numberOfProducts    ->setValue(5);
+    searchButton        = new QPushButton("Search", this);
 
     layout->addWidget(lineEdit);
     layout->addWidget(searchButton);
@@ -71,4 +73,16 @@ void MainWindow::createSearchWidget()
 
     this->centralWidget()->setLayout(layout);
     this->setMaximumHeight(0);
+}
+
+void MainWindow::printProductsData()
+{
+    for(int i = 0; i < products.size(); ++i)
+    {
+        qDebug() << products[i]->getName();
+        qDebug() << products[i]->getPrice();
+        qDebug() << products[i]->getUrl();
+        qDebug() << products[i]->getImage();
+        qDebug() << "*********************************";
+    }
 }

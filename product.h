@@ -8,11 +8,12 @@ class Product
 {
 public:
     Product();
-    ~Product() {qDebug() << "run destructor";}
-    QString getName();
-    QString getUrl();
-    QString getPrice();
-    QString getImage();
+    ~Product() { qDebug() << "run destructor"; }
+    QString getName() const     { return name; }
+    QString getUrl() const      { return url; }
+    QString getPrice() const    { return price; }
+    QString getImage() const    { return image; }
+
     void setProduct(QString newName, QString newUrl, QString newPrice, QString newImage);
 private:
     QString name;

@@ -7,8 +7,8 @@ class ParametresRequest
 {
 public:
     ParametresRequest();
-    QString getNameReq() const { return nameRequest;}
-    QString getNumberReq() const { return numberRequest;}
+    QString getNameReq() const      { return nameRequest; }
+    QString getNumberReq() const    { return numberRequest; }
 
     void setParametresReq(QString setName, QString setNumber);
 private:

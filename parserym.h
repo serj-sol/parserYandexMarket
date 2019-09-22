@@ -4,15 +4,20 @@
 #include <QMainWindow>
 #include "product.h"
 #include "parametresrequest.h"
+#include <QNetworkAccessManager>
 
 class ParserYM
 {
 public:
     ParserYM();
     QVector<Product*> search(const ParametresRequest&);
+
 private:
     void createProduct();
     void getProductData();
+
+private slots:
+
 };
 
 #endif // PARSERYM_H
