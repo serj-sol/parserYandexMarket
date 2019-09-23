@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "product.h"
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QTextEdit>
@@ -9,6 +9,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSignalMapper>
+#include <QTableView>
+#include <QStandardItemModel>
 #include "product.h"
 #include "parametresrequest.h"
 #include "parserym.h"
@@ -27,6 +29,7 @@ public:
     void                createSearchWidget();
     void                printProductsData();
 private:
+
     Ui::MainWindow*     ui;
     QPushButton*        searchButton;
     QLineEdit*          lineEdit;
@@ -35,7 +38,10 @@ private:
     QVector<Product*>   products;
     ParametresRequest*  parametresRequest;
     ParserYM*           parser;
+    QTableView*         tableView;
+    QStandardItemModel*  model;
     void                updateTable();
+    void Table();
 private slots:
     void starSearch();
 };

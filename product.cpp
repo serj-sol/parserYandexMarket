@@ -2,17 +2,31 @@
 
 Product::Product()
 {
-
+}
+Product::Product(QString n, QString p, QString l, QString i)
+{
+    name = n;
+    price = p;
+    url = l;
+    image = i;
+}
+void Product::setProduct(QString n, QString p, QString l, QString i){
+    name = n;
+    price = p;
+    url = l;
+    image = i;
 }
 
-Product::Product(const QString& newName, const QString& newUrl, const QString& newPrice, const QString& newImage)
-{
-    setProduct(newName, newUrl, newPrice, newImage);
+
+QString Product::getName() const {
+    return name;
 }
-void Product::setProduct(const QString& newName, const QString& newUrl, const QString& newPrice, const QString& newImage)
-{
-    name    = newName;
-    url     = newUrl;
-    price   = newPrice;
-    image   = newImage;
+QString Product::getPrice() const {
+    return price;
+}
+QString Product::getUrl() const {
+    return url;
+}
+QString Product::getImage() const {
+    return image;
 }
