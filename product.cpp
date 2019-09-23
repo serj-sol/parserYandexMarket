@@ -5,7 +5,11 @@ Product::Product()
 
 }
 
-void Product::setProduct(QString newName, QString newUrl, QString newPrice, QString newImage)
+Product::Product(const QString& newName, const QString& newUrl, const QString& newPrice, const QString& newImage)
+{
+    setProduct(newName, newUrl, newPrice, newImage);
+}
+void Product::setProduct(const QString& newName, const QString& newUrl, const QString& newPrice, const QString& newImage)
 {
     name    = newName;
     url     = newUrl;

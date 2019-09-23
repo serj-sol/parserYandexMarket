@@ -35,7 +35,6 @@ private:
     QVector<Product*>   products;
     ParametresRequest*  parametresRequest;
     ParserYM*           parser;
-
     void                updateTable();
 private slots:
     void starSearch();

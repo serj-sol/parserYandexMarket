@@ -10,7 +10,7 @@ public:
     QString getNameReq() const      { return nameRequest; }
     QString getNumberReq() const    { return numberRequest; }
 
-    void setParametresReq(QString setName, QString setNumber);
+    void setParametresReq(const QString& setName, const QString& setNumber);
 private:
     QString nameRequest;
     QString numberRequest;

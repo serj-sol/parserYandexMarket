@@ -5,7 +5,7 @@ ParametresRequest::ParametresRequest()
 
 }
 
-void ParametresRequest::setParametresReq(QString setName, QString setNumber)
+void ParametresRequest::setParametresReq(const QString& setName, const QString& setNumber)
 {
     nameRequest     = setName;
     numberRequest   = setNumber;

@@ -96,6 +96,7 @@ QVector<Product*> ParserYM::search(const ParametresRequest& parametresRequest)
                     linkProduct += data[idxHref];
                     ++idxHref;
                 }
+                // Заполняем поля нового объекта и добавляем указатель в вектор
                 newProduct->setProduct(titleProduct, linkProduct, priceProduct, pictureLinkProduct);
                 products.push_back(newProduct);
             }
