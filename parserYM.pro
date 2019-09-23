@@ -36,5 +36,9 @@ HEADERS += \
     parserym.h \
     parametresrequest.h
 
+
 FORMS += \
         mainwindow.ui
+
+RESOURCES += \
+

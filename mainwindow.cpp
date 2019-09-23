@@ -5,17 +5,28 @@
 #include <QNetworkReply>
 #include <QDebug>
 #include <QMessageBox>
+#include <QApplication>
+#include <QLabel>
+#include <QLayout>
+#include <QPushButton>
+#include <QLineEdit>
+
+#include <QDebug>
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     createSearchWidget();
     parser              = new ParserYM;
     parametresRequest   = new ParametresRequest;
 
     connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
     connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
+
+
 }
 
 MainWindow::~MainWindow()
@@ -27,6 +38,7 @@ MainWindow::~MainWindow()
     products.clear();
     delete ui;
 }
+
 
 void MainWindow::starSearch()
 {

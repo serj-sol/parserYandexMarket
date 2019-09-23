@@ -21,6 +21,7 @@ private:
     QString url;
     QString price;
     QString image;
+
 };
 
 #endif // PRODUCT_H

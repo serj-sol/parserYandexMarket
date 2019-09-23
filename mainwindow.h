@@ -1,6 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "product.h"
 #include <QMainWindow>
 #include <QLineEdit>
 #include <QTextEdit>
@@ -27,6 +27,7 @@ public:
     void                createSearchWidget();
     void                printProductsData();
 private:
+
     Ui::MainWindow*     ui;
     QPushButton*        searchButton;
     QLineEdit*          lineEdit;
