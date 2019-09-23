@@ -11,6 +11,7 @@ public:
     QString getNumberReq() const    { return numberRequest; }
 
     void setParametresReq(const QString& setName, const QString& setNumber);
+
 private:
     QString nameRequest;
     QString numberRequest;
