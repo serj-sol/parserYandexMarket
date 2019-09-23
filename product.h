@@ -1,23 +1,26 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
-#include <QObject>
+#include <QMainWindow>
+#include <QDebug>
 
 class Product
 {
-private:
-    QString name;
-    QString price;
-    QString url;
-    QString image;
 public:
     Product();
-    Product(QString n, QString p, QString l,QString i);
-    void setProduct(QString n, QString p, QString l,QString i);
-    QString getName() const;
-    QString getPrice() const ;
-    QString getUrl() const ;
-    QString getImage() const ;
+    Product(const QString& newName, const QString& newUrl, const QString& newPrice, const QString& newImage);
+    ~Product() { qDebug() << "run destructor"; }
+    QString getName() const     { return name; }
+    QString getUrl() const      { return url; }
+    QString getPrice() const    { return price; }
+    QString getImage() const    { return image; }
+
+    void setProduct(const QString& newName, const QString& newUrl, const QString& newPrice, const QString& newImage);
+private:
+    QString name;
+    QString url;
+    QString price;
+    QString image;
 };
 
 #endif // PRODUCT_H
