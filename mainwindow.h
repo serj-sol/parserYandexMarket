@@ -39,9 +39,10 @@ private:
     ParametresRequest*  parametresRequest;
     ParserYM*           parser;
     QTableView*         tableView;
-    QStandardItemModel*  model;
+    QStandardItemModel* model;
+    QVBoxLayout*        vLayout;
     void                updateTable();
-    void Table();
+    void                createProductTable();
 private slots:
     void starSearch();
 };

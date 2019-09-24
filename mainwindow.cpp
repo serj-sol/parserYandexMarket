@@ -11,42 +11,18 @@
 #include <QPushButton>
 #include <QLineEdit>
 
-#include <QDebug>
-
-
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    vLayout = new QVBoxLayout(this);
     createSearchWidget();
+
     parser              = new ParserYM;
     parametresRequest   = new ParametresRequest;
 
     connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
     connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
-
-    qDebug() << QSslSocket::supportsSsl();
-    qDebug() << QSslSocket::sslLibraryBuildVersionString();
-    qDebug() << QSslSocket::sslLibraryVersionString();
-
-
-    // НАЧАЛО создание объектов в конструкторе и вызов метода
-        Product prd1, prd2, prd3, prd4, prd5;
-        prd1.setProduct("Клавиатура Logitech Corded Keyboard K280e Black USB", "850", "https://market.yandex.ru/product--klaviatura-logitech-corded-keyboard-k280e-black-usb/10626665",  ":/imgs/imgs/1.webp");
-        prd2.setProduct("Клавиатура A4Tech KV-300H dark Grey USB", "price2", "https://market.yandex.ru/product--klaviatura-logitech-corded-keyboard-k280e-black-usb/10626665", ":/imgs/imgs/2.webp");
-        prd3.setProduct("Клавиатура Logitech G G213 Prodigy RGB Gaming Keyboard Black USB", "price3", "https://market.yandex.ru/product--klaviatura-logitech-corded-keyboard-k280e-black-usb/10626665", ":/imgs/imgs/3.webp");
-        prd4.setProduct("Клавиатура Logitech K380 Multi-Device Black Bluetooth","price4", "https://market.yandex.ru/product--klaviatura-logitech-corded-keyboard-k280e-black-usb/10626665", ":/imgs/imgs/4.webp");
-        prd5.setProduct("Клавиатура Logitech G G413 Black USB", "price5", "https://market.yandex.ru/product--klaviatura-logitech-corded-keyboard-k280e-black-usb/10626665", ":/imgs/imgs/5.webp");
-
-        products.push_back(&prd1);
-        products.push_back(&prd2);
-        products.push_back(&prd3);
-        products.push_back(&prd4);
-        products.push_back(&prd5);
-
-        Table();
-    // КОНЕЦ
 }
 
 MainWindow::~MainWindow()
@@ -58,7 +34,6 @@ MainWindow::~MainWindow()
     products.clear();
     delete ui;
 }
-
 
 void MainWindow::starSearch()
 {
@@ -84,6 +59,7 @@ void MainWindow::starSearch()
         qDebug() << "Success";
         printProductsData();
     }
+    createProductTable();
 
     lineEdit        ->setEnabled(true);
     numberOfProducts->setEnabled(true);
@@ -95,6 +71,7 @@ void MainWindow::createSearchWidget()
     QHBoxLayout* layout = new QHBoxLayout(this);
 
     lineEdit            = new QLineEdit(this);
+    lineEdit->setText("клавиатура");
     numberOfProducts    = new QSpinBox(this);
     numberOfProducts    ->setValue(5);
     searchButton        = new QPushButton("Search", this);
@@ -102,9 +79,9 @@ void MainWindow::createSearchWidget()
     layout->addWidget(lineEdit);
     layout->addWidget(searchButton);
     layout->addWidget(numberOfProducts);
+    vLayout->addLayout(layout);
 
-    this->centralWidget()->setLayout(layout);
-    this->setMaximumHeight(0);
+    this->centralWidget()->setLayout(vLayout);
 }
 
 void MainWindow::printProductsData()
@@ -119,27 +96,23 @@ void MainWindow::printProductsData()
     }
 }
 
-void MainWindow::Table(){
+void MainWindow::createProductTable(){
 
     tableView = new QTableView(this);
     model = new QStandardItemModel;
 
-    setCentralWidget(tableView);
-
-    // *iName;
     QStandardItem *iPrice;
-    QStandardItem *iPic;
     tableView->setModel(model);
 
     //Заголовки столбцов
     QStringList horizontalHeader;
-        horizontalHeader.append("Название");
-        horizontalHeader.append("Цена");
-        horizontalHeader.append("Картинка");
+    horizontalHeader.append("Название");
+    horizontalHeader.append("Цена");
+    horizontalHeader.append("Картинка");
     model->setHorizontalHeaderLabels(horizontalHeader);
 
-    for (int r = 0; r < 5; r++){
-        //iName = new QStandardItem(products.at(r).get_name());
+    for (int r = 0; r < parametresRequest->getNumberReq().toInt(); r++){
+
         iPrice = new QStandardItem(products.at(r)->getPrice());
         QLabel *linkedName = new QLabel;
         linkedName->setText("<a href=\"" + products.at(r)->getUrl() + "\">" + products.at(r)->getName() + "</a>");
@@ -147,18 +120,34 @@ void MainWindow::Table(){
         linkedName->setTextInteractionFlags(Qt::TextBrowserInteraction);
         linkedName->setOpenExternalLinks(true);
 
-        QImage image(products.at(r)->getImage());
-        iPic = new QStandardItem();
-        iPic->setData(QVariant(QPixmap::fromImage(image)), Qt::DecorationRole);
+        QPixmap pix;
+        QLabel* lbl = new QLabel();
 
-        //model->setItem(r, 0, iName);
+        QNetworkAccessManager manager;
+        QNetworkReply *response = manager.get(QNetworkRequest(QUrl(products.at(r)->getImage())));
+        QEventLoop event;
+        QObject::connect(response,SIGNAL(finished()),&event,SLOT(quit()));
+        event.exec();
+        QByteArray image;
+
+        if(response->isFinished())
+        {
+            image = response->readAll();
+            pix.loadFromData(image);
+
+            lbl->setPixmap(pix.scaled(100, 100));
+       }
+        else
+            qDebug() << "Response is no finished";
+
         model->setItem(r, 1, iPrice);
-        model->setItem(r, 2, iPic);
-        tableView->setIndexWidget(tableView->model()->index(r, 0),linkedName);
 
+        tableView->setIndexWidget(tableView->model()->index(r, 0),linkedName);
+        tableView->setIndexWidget(tableView->model()->index(r, 2), lbl);
     }
 
     tableView->resizeRowsToContents();
     tableView->resizeColumnsToContents();
 
+    vLayout->addWidget(tableView);
 }
