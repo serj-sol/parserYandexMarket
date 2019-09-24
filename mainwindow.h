@@ -32,6 +32,7 @@ private:
 
     Ui::MainWindow*     ui;
     QPushButton*        searchButton;
+    QPushButton*        exportButton;
     QLineEdit*          lineEdit;
     QString             html;
     QSpinBox*           numberOfProducts;
@@ -43,8 +44,10 @@ private:
     QVBoxLayout*        vLayout;
     void                updateTable();
     void                createProductTable();
+
 private slots:
     void starSearch();
+    void exportToExcel();
 };
 
 #endif // MAINWINDOW_H
