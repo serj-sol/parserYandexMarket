@@ -9,6 +9,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QSignalMapper>
+#include <QTableView>
+#include <QStandardItemModel>
 #include "product.h"
 #include "parametresrequest.h"
 #include "parserym.h"
@@ -36,7 +38,11 @@ private:
     QVector<Product*>   products;
     ParametresRequest*  parametresRequest;
     ParserYM*           parser;
+    QTableView*         tableView;
+    QStandardItemModel* model;
+    QVBoxLayout*        vLayout;
     void                updateTable();
+    void                createProductTable();
 private slots:
     void starSearch();
 };

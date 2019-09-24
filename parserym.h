@@ -11,7 +11,6 @@ class ParserYM
 public:
     ParserYM();
     QVector<Product*> search(const ParametresRequest&);
-
 private:
     void createProduct();
     void getProductData();
