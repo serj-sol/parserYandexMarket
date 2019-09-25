@@ -7,9 +7,6 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QLabel>
-#include <QLayout>
-#include <QPushButton>
-#include <QLineEdit>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -97,6 +94,8 @@ void MainWindow::printProductsData()
 }
 
 void MainWindow::createProductTable(){
+    if(tableView)
+        delete tableView;   // Удаляем предыдущую таблицу с результатом поиска, если это не первый запуск программы.
 
     tableView = new QTableView(this);
     model = new QStandardItemModel;
