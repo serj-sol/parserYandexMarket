@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "xlsxdocument.h"
 #include <QNetworkAccessManager>
 #include <QEventLoop>
 #include <QNetworkReply>
@@ -23,6 +24,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
     connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
+
+    connect(exportButton,   SIGNAL(clicked(bool)), this,            SLOT(exportToExcel()));
 }
 
 MainWindow::~MainWindow()
@@ -75,9 +78,11 @@ void MainWindow::createSearchWidget()
     numberOfProducts    = new QSpinBox(this);
     numberOfProducts    ->setValue(5);
     searchButton        = new QPushButton("Search", this);
+    exportButton        = new QPushButton("Export", this);
 
     layout->addWidget(lineEdit);
     layout->addWidget(searchButton);
+    layout->addWidget(exportButton);
     layout->addWidget(numberOfProducts);
     vLayout->addLayout(layout);
 
@@ -150,4 +155,24 @@ void MainWindow::createProductTable(){
     tableView->resizeColumnsToContents();
 
     vLayout->addWidget(tableView);
+}
+
+
+void MainWindow::exportToExcel(){
+    QXlsx::Document xlsx;
+    QString a;
+    QString b;
+    QString c;
+    QString d;
+    for (int i = 0; i < products.size(); i++){
+        a = "A" + QString::number(i+1);
+        b = "B" + QString::number(i+1);
+        c = "C" + QString::number(i+1);
+        d = "D" + QString::number(i+1);
+        xlsx.write(a, products.at(i)->getName());
+        xlsx.write(b, products.at(i)->getUrl());
+        xlsx.write(c, products.at(i)->getPrice());
+        xlsx.write(d, products.at(i)->getImage());
+        xlsx.saveAs("excelFile.xlsx");
+    }
 }
