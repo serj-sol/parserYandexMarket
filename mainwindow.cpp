@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
     connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
+
     connect(exportButton,   SIGNAL(clicked(bool)), this,            SLOT(exportToExcel()));
 }
 
@@ -155,6 +156,7 @@ void MainWindow::createProductTable(){
 
     vLayout->addWidget(tableView);
 }
+
 
 void MainWindow::exportToExcel(){
     QXlsx::Document xlsx;
