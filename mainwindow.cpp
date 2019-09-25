@@ -169,10 +169,10 @@ void MainWindow::exportToExcel(){
     xlsx.write("C1", "Цена");
     xlsx.write("D1", "Изображение");
     for (int i = 0; i < products.size(); i++){
-        a = "A" + QString::number(i+1);
-        b = "B" + QString::number(i+1);
-        c = "C" + QString::number(i+1);
-        d = "D" + QString::number(i+1);
+        a = "A" + QString::number(i+2);
+        b = "B" + QString::number(i+2);
+        c = "C" + QString::number(i+2);
+        d = "D" + QString::number(i+2);
         xlsx.write(a, products.at(i)->getName());
         xlsx.write(b, products.at(i)->getUrl());
         xlsx.write(c, products.at(i)->getPrice());
