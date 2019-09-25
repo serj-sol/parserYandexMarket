@@ -164,6 +164,10 @@ void MainWindow::exportToExcel(){
     QString b;
     QString c;
     QString d;
+    xlsx.write("A1", "Название");
+    xlsx.write("B1", "Ссылка");
+    xlsx.write("C1", "Цена");
+    xlsx.write("D1", "Изображение");
     for (int i = 0; i < products.size(); i++){
         a = "A" + QString::number(i+1);
         b = "B" + QString::number(i+1);
