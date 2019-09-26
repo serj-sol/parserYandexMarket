@@ -183,7 +183,5 @@ void MainWindow::exportToExcel(){
         xlsx.saveAs("excelFile.xlsx");
     }
 
-    qDebug() << QDir::currentPath() + "/addLinkImage.xlsm";
-
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/addLinkImage.xlsm", QUrl::TolerantMode));
 }
