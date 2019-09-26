@@ -11,6 +11,8 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QDesktopServices>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -102,7 +104,8 @@ void MainWindow::printProductsData()
 }
 
 void MainWindow::createProductTable(){
-
+    if(tableView)
+            delete tableView;
     tableView = new QTableView(this);
     model = new QStandardItemModel;
 
@@ -179,4 +182,8 @@ void MainWindow::exportToExcel(){
         xlsx.write(d, products.at(i)->getImage());
         xlsx.saveAs("excelFile.xlsx");
     }
+
+    qDebug() << QDir::currentPath() + "/addLinkImage.xlsm";
+
+    QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/addLinkImage.xlsm", QUrl::TolerantMode));
 }

@@ -39,7 +39,7 @@ private:
     QVector<Product*>   products;
     ParametresRequest*  parametresRequest;
     ParserYM*           parser;
-    QTableView*         tableView;
+    QTableView*         tableView = NULL;
     QStandardItemModel* model;
     QVBoxLayout*        vLayout;
     void                updateTable();
