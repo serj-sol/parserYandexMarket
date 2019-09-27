@@ -11,6 +11,8 @@
 #include <QLayout>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QDesktopServices>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -102,7 +104,8 @@ void MainWindow::printProductsData()
 }
 
 void MainWindow::createProductTable(){
-
+    if(tableView)
+            delete tableView;
     tableView = new QTableView(this);
     model = new QStandardItemModel;
 
@@ -164,15 +167,21 @@ void MainWindow::exportToExcel(){
     QString b;
     QString c;
     QString d;
+    xlsx.write("A1", "Название");
+    xlsx.write("B1", "Ссылка");
+    xlsx.write("C1", "Цена");
+    xlsx.write("D1", "Изображение");
     for (int i = 0; i < products.size(); i++){
-        a = "A" + QString::number(i+1);
-        b = "B" + QString::number(i+1);
-        c = "C" + QString::number(i+1);
-        d = "D" + QString::number(i+1);
+        a = "A" + QString::number(i+2);
+        b = "B" + QString::number(i+2);
+        c = "C" + QString::number(i+2);
+        d = "D" + QString::number(i+2);
         xlsx.write(a, products.at(i)->getName());
         xlsx.write(b, products.at(i)->getUrl());
         xlsx.write(c, products.at(i)->getPrice());
         xlsx.write(d, products.at(i)->getImage());
         xlsx.saveAs("excelFile.xlsx");
     }
+
+    QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/addLinkImage.xlsm", QUrl::TolerantMode));
 }
