@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "xlsxdocument.h"
 #include <QNetworkAccessManager>
 #include <QEventLoop>
 #include <QNetworkReply>
@@ -7,6 +8,12 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QLabel>
+#include <QLayout>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QDesktopServices>
+#include <QDir>
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -20,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
     connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
+
+    connect(exportButton,   SIGNAL(clicked(bool)), this,            SLOT(exportToExcel()));
 }
 
 MainWindow::~MainWindow()
@@ -72,9 +81,11 @@ void MainWindow::createSearchWidget()
     numberOfProducts    = new QSpinBox(this);
     numberOfProducts    ->setValue(5);
     searchButton        = new QPushButton("Search", this);
+    exportButton        = new QPushButton("Export", this);
 
     layout->addWidget(lineEdit);
     layout->addWidget(searchButton);
+    layout->addWidget(exportButton);
     layout->addWidget(numberOfProducts);
     vLayout->addLayout(layout);
 
@@ -95,8 +106,7 @@ void MainWindow::printProductsData()
 
 void MainWindow::createProductTable(){
     if(tableView)
-        delete tableView;   // Удаляем предыдущую таблицу с результатом поиска, если это не первый запуск программы.
-
+            delete tableView;
     tableView = new QTableView(this);
     model = new QStandardItemModel;
 
@@ -149,4 +159,30 @@ void MainWindow::createProductTable(){
     tableView->resizeColumnsToContents();
 
     vLayout->addWidget(tableView);
+}
+
+
+void MainWindow::exportToExcel(){
+    QXlsx::Document xlsx;
+    QString a;
+    QString b;
+    QString c;
+    QString d;
+    xlsx.write("A1", "Название");
+    xlsx.write("B1", "Ссылка");
+    xlsx.write("C1", "Цена");
+    xlsx.write("D1", "Изображение");
+    for (int i = 0; i < products.size(); i++){
+        a = "A" + QString::number(i+2);
+        b = "B" + QString::number(i+2);
+        c = "C" + QString::number(i+2);
+        d = "D" + QString::number(i+2);
+        xlsx.write(a, products.at(i)->getName());
+        xlsx.write(b, products.at(i)->getUrl());
+        xlsx.write(c, products.at(i)->getPrice());
+        xlsx.write(d, products.at(i)->getImage());
+        xlsx.saveAs("excelFile.xlsx");
+    }
+
+    QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/addLinkImage.xlsm", QUrl::TolerantMode));
 }
