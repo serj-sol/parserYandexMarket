@@ -3,6 +3,7 @@
 #include <QEventLoop>
 #include <QNetworkReply>
 #include <QDebug>
+#include <QMessageBox>
 
 ParserYM::ParserYM()
 {
@@ -10,6 +11,7 @@ ParserYM::ParserYM()
 }
 QVector<Product*> ParserYM::search(const ParametresRequest& parametresRequest)
 {
+    bool isGood = false;
     QVector<Product*> products;
     QString searchText      = parametresRequest.getNameReq();
     QString searchPattern   = "https://market.yandex.ru/search?&text=";
@@ -45,6 +47,7 @@ QVector<Product*> ParserYM::search(const ParametresRequest& parametresRequest)
         product.clear();
         if(indexBegin != -1 && indexEnd != -1)
         {
+            isGood = true;
             for(int i = indexBegin, j = 0; i < indexEnd; ++i, ++j)
             {
                 product[j] = html[i];
@@ -100,11 +103,19 @@ QVector<Product*> ParserYM::search(const ParametresRequest& parametresRequest)
                 products.push_back(newProduct);
             }
         }
-        else
-        {
-            qDebug() << "Данные о продукте не найдены";
-            exit(1);
-        }
+//        else
+//        {
+//            qDebug() << "Данные о продукте не найдены";
+//            exit(1);
+//        }
+    }
+    if(isGood)
+    {
+        QMessageBox::information(0, "", "Results is done");
+    }
+    else
+    {
+        QMessageBox::information(0,"", "Товар не найден. Попробуйте изменить текст запроса");
     }
     return products;
 }

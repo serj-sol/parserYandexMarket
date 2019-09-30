@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
     connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
     connect(exportButton,   SIGNAL(clicked(bool)), this,            SLOT(exportToExcel()));
+    if(!tableView)
+        exportButton        ->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -56,18 +58,26 @@ void MainWindow::starSearch()
 
     products = parser->search(*parametresRequest);
 
-    QMessageBox::information(this, "", "Results is done");
     if(!products.isEmpty())
     {
         qDebug() << "Success";
         printProductsData();
-    }
-    createProductTable();
+        createProductTable();
 
-    lineEdit            ->setEnabled(true);
-    numberOfProducts    ->setEnabled(true);
-    searchButton        ->setEnabled(true);
-    exportButton        ->setEnabled(true);
+        lineEdit            ->setEnabled(true);
+        numberOfProducts    ->setEnabled(true);
+        searchButton        ->setEnabled(true);
+        exportButton        ->setEnabled(true);
+    }
+    else
+    {
+        lineEdit            ->setEnabled(true);
+        numberOfProducts    ->setEnabled(true);
+        searchButton        ->setEnabled(true);
+    }
+
+    if(!tableView)
+        exportButton        ->setEnabled(false);
 }
 
 void MainWindow::createSearchWidget()
