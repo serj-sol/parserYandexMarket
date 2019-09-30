@@ -14,6 +14,7 @@
 #include <QDesktopServices>
 #include <QDir>
 
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {

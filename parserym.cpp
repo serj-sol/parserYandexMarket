@@ -8,7 +8,6 @@ ParserYM::ParserYM()
 {
 
 }
-
 QVector<Product*> ParserYM::search(const ParametresRequest& parametresRequest)
 {
     QVector<Product*> products;
@@ -90,7 +89,7 @@ QVector<Product*> ParserYM::search(const ParametresRequest& parametresRequest)
                 QString linkProduct = "https://market.yandex.ru";
                 pattern     = "href=\"";
                 int idxHref = data.indexOf(pattern, 0);
-                idxHref     += 7;
+                idxHref     += 6;
                 while(data[idxHref] != '"')
                 {
                     linkProduct += data[idxHref];

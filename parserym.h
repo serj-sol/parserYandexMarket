@@ -14,9 +14,6 @@ public:
 private:
     void createProduct();
     void getProductData();
-
-private slots:
-
 };
 
 #endif // PARSERYM_H

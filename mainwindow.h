@@ -5,9 +5,9 @@
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QSpinBox>
-#include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QPushButton>
 #include <QSignalMapper>
 #include <QTableView>
 #include <QStandardItemModel>
@@ -29,7 +29,6 @@ public:
     void                createSearchWidget();
     void                printProductsData();
 private:
-
     Ui::MainWindow*     ui;
     QPushButton*        searchButton;
     QPushButton*        exportButton;
