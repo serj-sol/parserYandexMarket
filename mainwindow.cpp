@@ -9,11 +9,8 @@
 #include <QApplication>
 #include <QLabel>
 #include <QLayout>
-#include <QPushButton>
-#include <QLineEdit>
 #include <QDesktopServices>
 #include <QDir>
-
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -27,7 +24,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     connect(searchButton,   SIGNAL(clicked(bool)), this,            SLOT(starSearch()));
     connect(lineEdit,       SIGNAL(returnPressed()), searchButton,  SLOT(click()));    // Срабатывание кнопки поиска от нажатия клавиши Enter.
-
     connect(exportButton,   SIGNAL(clicked(bool)), this,            SLOT(exportToExcel()));
 }
 
@@ -46,6 +42,7 @@ void MainWindow::starSearch()
     lineEdit            ->setEnabled(false);
     numberOfProducts    ->setEnabled(false);
     searchButton        ->setEnabled(false);
+    exportButton        ->setEnabled(false);
     parametresRequest   ->setParametresReq(lineEdit->text(), QString::number((numberOfProducts->value())));
 
     if(!products.isEmpty())
@@ -67,9 +64,10 @@ void MainWindow::starSearch()
     }
     createProductTable();
 
-    lineEdit        ->setEnabled(true);
-    numberOfProducts->setEnabled(true);
-    searchButton    ->setEnabled(true);
+    lineEdit            ->setEnabled(true);
+    numberOfProducts    ->setEnabled(true);
+    searchButton        ->setEnabled(true);
+    exportButton        ->setEnabled(true);
 }
 
 void MainWindow::createSearchWidget()
@@ -161,7 +159,6 @@ void MainWindow::createProductTable(){
     vLayout->addWidget(tableView);
 }
 
-
 void MainWindow::exportToExcel(){
     QXlsx::Document xlsx;
     QString a;
@@ -185,4 +182,5 @@ void MainWindow::exportToExcel(){
     }
 
     QDesktopServices::openUrl(QUrl(QDir::currentPath() + "/addLinkImage.xlsm", QUrl::TolerantMode));
+    QMessageBox::information(this, "", "Excel файл создан");
 }
